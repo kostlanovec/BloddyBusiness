@@ -1,0 +1,15 @@
+/home/kostik/RiderProjects/konzole/konzole/bin/Debug/net7.0/konzole
+/home/kostik/RiderProjects/konzole/konzole/bin/Debug/net7.0/konzole.deps.json
+/home/kostik/RiderProjects/konzole/konzole/bin/Debug/net7.0/konzole.runtimeconfig.json
+/home/kostik/RiderProjects/konzole/konzole/bin/Debug/net7.0/konzole.dll
+/home/kostik/RiderProjects/konzole/konzole/bin/Debug/net7.0/konzole.pdb
+/home/kostik/RiderProjects/konzole/konzole/obj/Debug/net7.0/konzole.csproj.AssemblyReference.cache
+/home/kostik/RiderProjects/konzole/konzole/obj/Debug/net7.0/konzole.GeneratedMSBuildEditorConfig.editorconfig
+/home/kostik/RiderProjects/konzole/konzole/obj/Debug/net7.0/konzole.AssemblyInfoInputs.cache
+/home/kostik/RiderProjects/konzole/konzole/obj/Debug/net7.0/konzole.AssemblyInfo.cs
+/home/kostik/RiderProjects/konzole/konzole/obj/Debug/net7.0/konzole.csproj.CoreCompileInputs.cache
+/home/kostik/RiderProjects/konzole/konzole/obj/Debug/net7.0/konzole.dll
+/home/kostik/RiderProjects/konzole/konzole/obj/Debug/net7.0/refint/konzole.dll
+/home/kostik/RiderProjects/konzole/konzole/obj/Debug/net7.0/konzole.pdb
+/home/kostik/RiderProjects/konzole/konzole/obj/Debug/net7.0/konzole.genruntimeconfig.cache
+/home/kostik/RiderProjects/konzole/konzole/obj/Debug/net7.0/ref/konzole.dll
