@@ -1,22 +1,18 @@
 namespace Konzole{
     
-    class Enemy
-    {
-        public int X { get; set; }
-        public int Y { get; set; }
-        public string Symbol { get; set; }
+using System;
+using System.Collections.Generic;
+using System.Threading;
 
-        public Enemy(int x, int y, string symbol = "🐍")
-        {
-            X = x;
-            Y = y;
-            Symbol = symbol;
-        }
-    }
-class CarGame
+namespace Konzole
+{
+
+    class CarGame
     {
+
+        
         private Player player;
-        private int obstacleX, obstacleY;
+        private List<Obstacle> obstacles;
         private bool gameover;
 
         public CarGame()
@@ -26,8 +22,7 @@ class CarGame
                 X = Console.WindowWidth / 2,
                 Y = Console.WindowHeight / 2,
             };
-            obstacleX = Console.WindowWidth - 1;
-            obstacleY = 0;
+            obstacles = new List<Obstacle>();
             gameover = false;
         }
 
@@ -41,12 +36,15 @@ class CarGame
     DateTime startTime = DateTime.Now;
     TimeSpan elapsedTime;
     int timeLimit = 10;
+    int spawnInterval = 40;
+    int spawnTimer = 0;
+    int obstacleSpeed = 1;
 
     while (!gameover)
     {
         Console.SetCursorPosition(player.X, player.Y);
         Console.Write(".-'--`-._");
-        Console.SetCursorPosition(player.X, player.Y+1);
+        Console.SetCursorPosition(player.X, player.Y + 1);
         Console.Write("'-O---O--'");
 
         if (Console.KeyAvailable)
@@ -58,29 +56,62 @@ class CarGame
                 player.Y++;
         }
 
+        spawnTimer++;
+        if (spawnTimer == spawnInterval)
+        {
+            Random random = new Random();
+            int rand = random.Next(0, 10);
+            if (rand < 5)
+            {
+                Obstacle newObstacle = new Obstacle(
+                    0,
+                    random.Next(Console.WindowHeight - 2) + 1,
+                    GetRandomObstacleSymbol(),
+                    obstacleSpeed
+                );
+                obstacles.Add(newObstacle);
+            }
+            else // spawn obstacle from the right
+            {
+                Obstacle newObstacle = new Obstacle(
+                    Console.WindowWidth - 1,
+                    random.Next(Console.WindowHeight - 2) + 1,
+                    GetRandomObstacleSymbol(),
+                    -obstacleSpeed // negative speed will move the obstacle to the left
+                );
+                obstacles.Add(newObstacle);
+            }
+            spawnTimer = 0;
+            if (spawnInterval > 1) spawnInterval--;
+        }
         
-        obstacleX--;
-        if (obstacleX == player.X && obstacleY == player.Y)
+        foreach (Obstacle obstacle in obstacles)
         {
-            gameover = true;
-            Console.SetCursorPosition(Console.WindowWidth / 2 - 5, Console.WindowHeight / 2);
-            Console.Write("Game Over");
+            Console.SetCursorPosition(obstacle.X, obstacle.Y);
+            Console.Write(obstacle.Symbol);
+            obstacle.X += obstacle.Speed;
+            if ((obstacle.X == player.X && obstacle.Y == player.Y) || (obstacle.X == player.X + 1 && obstacle.Y == player.Y + 1))
+            {
+                gameover = true;
+                Console.SetCursorPosition(Console.WindowWidth / 2 - 5, Console.WindowHeight / 2);
+                Console.Clear();
+                Console.Write("Game Over");
+                Thread.Sleep(1000);
+                break;
+            }
         }
-        if (obstacleX == 0)
-        {
-            obstacleX = Console.WindowWidth - 1;
-            obstacleY = new Random().Next(Console.WindowHeight);
-        }
+        obstacles.RemoveAll(o => o.X < 0 || o.X >= Console.WindowWidth);
+
         TimeSpan timeElapsed = DateTime.Now - startTime;
         Console.SetCursorPosition(Console.WindowWidth - 11, 0);
         Console.Write($"Time: {timeElapsed:mm\\:ss}");
-        
-        Thread.Sleep(30);
+
+        Thread.Sleep(50);
         Console.Clear();
-        
+
         elapsedTime = DateTime.Now - startTime;
-        
-        if (elapsedTime.TotalSeconds >= 10)
+
+        if (elapsedTime.TotalSeconds >= 60)
         {
             Console.SetCursorPosition(Console.WindowWidth / 2 - 5, Console.WindowHeight / 2);
             Console.Clear();
@@ -88,12 +119,17 @@ class CarGame
             Thread.Sleep(1000);
             gameover = true;
         }
-        Console.SetCursorPosition(obstacleX, obstacleY);
-        Console.Write("🚗");
+    }
+}
+        public string GetRandomObstacleSymbol()
+        {
+            string[] symbols = { "🌲", "🚓", "🪿", "🏳️‍🌈" };
+            Random rnd = new Random();
+            int index = rnd.Next(0, symbols.Length);
+            return symbols[index];
+        }
     }
 }
 
-        
-    }
 }
 
